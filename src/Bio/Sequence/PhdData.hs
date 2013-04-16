@@ -2,6 +2,7 @@ module Bio.Sequence.PhdData where
 
 import Data.Maybe(fromJust)
 import Bio.Core.Sequence
+import Bio.Sequence.PhdTag
 import qualified Data.ByteString.Lazy as BB
 import qualified Data.ByteString.Lazy.Char8 as B
 
@@ -26,9 +27,9 @@ data Comment = Comment
     , trim               :: Maybe String
     , chem               :: String
     , dye                :: String
-    } deriving (Show, Eq)
+    } deriving (Eq)
 
-{--
+
 instance Show Comment where
     show (Comment cf abit pv cm ql ti mintai maxtai tr ch dy) =
       ("\n" ++) $ unlines
@@ -44,19 +45,18 @@ instance Show Comment where
                     , "CHEM: "           ++ ch
                     , "DYE: "            ++ dy
                     ]
---}
 
 data DNABlock = DNABlock
                 { label        :: SeqLabel
                 , bases        :: SeqData
                 , qualities    :: QualData
                 , traceIndices :: [Int]
-                } deriving (Show, Eq)
+                } deriving (Eq)
 
-{--
+
 instance Show DNABlock where
   show = B.unpack . toFasta
---}
+
 
 instance BioSeq DNABlock where
   seqid     db = SeqLabel $ B.takeWhile (/= ' ') $ unSL $ label db
@@ -66,14 +66,6 @@ instance BioSeq DNABlock where
 
 instance BioSeqQual DNABlock where
   seqqual = qualities
-
-data PhdTag  = PhdTag
-               { tagType :: String
-               , source  :: String
-               , unpaddedReadPosition :: [Offset]
-               , date    :: String
-               , tagComment :: String
-               } deriving (Show, Eq)
 
 -- Some default values for the data types, useful for debugging in ghci
 
@@ -94,8 +86,4 @@ defaultDNABlock = DNABlock { label        = SeqLabel $ B.pack "some_dna A sample
                            , qualities    = QualData $ B.pack "0000000000"
                            , traceIndices = [0,1,2,3,4,5,6,7,8,9,10] }
 
-defaultPhdTag = PhdTag { tagType              = "polymorphism"
-                       , source               = "polyphred"
-                       , unpaddedReadPosition = [5, 5]
-                       , date                 = "01/01/70 00:00:00"
-                       , tagComment              = "" }
+

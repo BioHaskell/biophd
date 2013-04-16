@@ -5,6 +5,7 @@ module Bio.Sequence.Phd(
 
 import Bio.Core.Sequence
 import Bio.Sequence.PhdData
+import Bio.Sequence.PhdTag
 
 import Text.ParserCombinators.Parsec hiding (label)
 
@@ -102,12 +103,12 @@ mkOnePhdTag td = case length td of
                                        , source  = drop 8 (td!!2)
                                        , unpaddedReadPosition = map (\x -> Offset {unOff = read x :: Int64}) (words (drop 19 (td!!3)))
                                        , date    = drop 6 (td!!4)
-                                       , tagComment = if td!!6 == "BEGIN_TAG" then ""
+                                       , Bio.Sequence.PhdTag.comment = if td!!6 == "BEGIN_TAG" then ""
                                                   else td!!6
                                        }
                    _ -> Just PhdTag { tagType = drop 6 (td!!1)
                                        , source  = drop 8 (td!!2)
                                        , unpaddedReadPosition = map (\x -> Offset {unOff = read x :: Int64}) (words (drop 19 (td!!3)))
                                        , date    = drop 6 (td!!4)
-                                       , tagComment = ""
+                                       , Bio.Sequence.PhdTag.comment = ""
                                        }
