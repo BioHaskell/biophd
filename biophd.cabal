@@ -1,13 +1,13 @@
 Name:                biophd
-Version:             0.0.5
+Version:             0.0.6
 Synopsis:            Library for reading phd sequence files
 Description:         Library for reading phd sequence files
-Homepage:	     https://patch-tag.com/r/dfornika/biophd/home
+Homepage:	     https://github.com/dfornika/biophd/wiki
 License:             GPL
 License-file:        LICENSE
 Cabal-Version:       >=1.6
 Author:              Ketil Malde <ketil@malde.org>
-Maintainer:          dfornika@gmail.com
+Maintainer:          Dan Fornika <dfornika@gmail.com>
 Stability:	     Provisional
 Category:	     Bioinformatics
 Build-Type:          Simple
@@ -18,6 +18,6 @@ Library
   Hs-source-dirs:    src
 
 source-Repository    head
-  type:		     darcs
-  location:	     http://www.patch-tag.com/r/dfornika/biophd
+  type:		     git
+  location:	     https://github.com/dfornika/biophd.git
 
