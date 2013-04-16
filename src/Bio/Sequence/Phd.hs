@@ -13,13 +13,17 @@ import qualified Data.ByteString as BBB
 import qualified Data.ByteString.Lazy as BB
 import qualified Data.ByteString.Lazy.Char8 as B
 
+import Control.Monad (liftM)
 import Data.Ix
 import Data.Int (Int64)
 import Data.List
 import Data.Maybe
 import Data.Text (Text)
+import Data.Time
+import Data.Time.Format
 import Data.Binary (encode)
 import System.IO
+import System.Locale
 
 -- | Parse a .phd file, extracting the contents as a PHD
 readPhd :: FilePath -> IO Phd
@@ -100,15 +104,15 @@ mkOnePhdTag :: [String] -> Maybe PhdTag
 mkOnePhdTag td = case length td of
                    0 -> Nothing
                    9 -> Just PhdTag { tagType = drop 6 (td!!1)
-                                       , source  = drop 8 (td!!2)
-                                       , unpaddedReadPosition = map (\x -> Offset {unOff = read x :: Int64}) (words (drop 19 (td!!3)))
-                                       , date    = drop 6 (td!!4)
-                                       , Bio.Sequence.PhdTag.comment = if td!!6 == "BEGIN_TAG" then ""
-                                                  else td!!6
-                                       }
+                                    , source  = drop 8 (td!!2)
+                                    , unpaddedReadPosition = map (\x -> Offset {unOff = read x :: Int64}) (words (drop 19 (td!!3)))
+                                    , date    = readTime defaultTimeLocale "%y/%m/%d %T" $ drop 6 (td!!4)
+                                    , Bio.Sequence.PhdTag.comment = if td!!6 == "BEGIN_TAG" then Nothing
+                                                                    else Just (td!!6)
+                                    }
                    _ -> Just PhdTag { tagType = drop 6 (td!!1)
-                                       , source  = drop 8 (td!!2)
-                                       , unpaddedReadPosition = map (\x -> Offset {unOff = read x :: Int64}) (words (drop 19 (td!!3)))
-                                       , date    = drop 6 (td!!4)
-                                       , Bio.Sequence.PhdTag.comment = ""
-                                       }
+                                    , source  = drop 8 (td!!2)
+                                    , unpaddedReadPosition = map (\x -> Offset {unOff = read x :: Int64}) (words (drop 19 (td!!3)))
+                                    , date    = readTime defaultTimeLocale "%y/%m/%d %T" $ drop 6 (td!!4)
+                                    , Bio.Sequence.PhdTag.comment = Nothing
+                                    }
