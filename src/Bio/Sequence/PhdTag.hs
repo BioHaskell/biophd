@@ -7,7 +7,7 @@ import Bio.Core.Sequence (Offset, unOff)
 data PhdTag = PhdTag
               { tagType              :: String
               , source               :: String
-              , unpaddedReadPosition :: [Offset]
+              , unpaddedReadPosition :: (Offset, Offset)
               , date                 :: LocalTime
               , comment              :: Maybe String
               } deriving (Eq)
@@ -16,12 +16,7 @@ instance Show PhdTag where
   show (PhdTag tt so urp da co) = ("\n" ++) $ unlines $ map (" " ++)
                                   [ "TYPE: "              ++ show tt
                                   , "SOURCE: "            ++ show so
-                                  , "UNPADDED_READ_POS: " ++ show (map unOff urp)
+                                  , "UNPADDED_READ_POS: " ++ (show $ unOff $ fst urp) ++ " " ++ (show $ unOff $ snd urp)
                                   , "DATE: "              ++ show da
                                   , "COMMENT: "           ++ show co ]
 
-defaultPhdTag = PhdTag { tagType              = "polymorphism"
-                       , source               = "polyphred"
-                       , unpaddedReadPosition = [5, 5]
-                       , date                 = readTime defaultTimeLocale "%D %T" "09/22/11 15:17:47"
-                       , comment              = Nothing }
