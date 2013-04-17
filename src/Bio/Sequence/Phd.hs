@@ -68,7 +68,7 @@ mkComment com = Comment { chromatFile        = head com
                         , phredVersion       = com!!2
                         , callMethod         = com!!3
                         , qualityLevels      = read (com!!4) :: Int
-                        , time               = com!!5
+                        , time               = readTime defaultTimeLocale "%a %b %-e %T %Y" $ com!!5
                         , traceArrayMinIndex = read (com!!6) :: Int
                         , traceArrayMaxIndex = read (com!!7) :: Int
                         , trim               = if length com > 10 then
