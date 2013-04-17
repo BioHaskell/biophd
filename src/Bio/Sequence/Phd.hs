@@ -113,13 +113,13 @@ mkOnePhdTag td = case length td of
                    9 -> Just PhdTag { tagType = head $ dropLabel (td!!1)
                                     , source  = head $ dropLabel (td!!2)
                                     , unpaddedReadPosition = parseReadPosition (td!!3)
-                                    , date    = readTime defaultTimeLocale "%y/%m/%d %T" $ (head . dropLabel) (td!!4)
+                                    , date    = readTime defaultTimeLocale "%y/%d/%m %T" $ intercalate " " $ dropLabel (td!!4)
                                     , Bio.Sequence.PhdTag.comment = if td!!6 == "BEGIN_TAG" then Nothing
                                                                     else Just (td!!6)
                                     }
                    _ -> Just PhdTag { tagType = head $ dropLabel (td!!1)
                                     , source  = head $ dropLabel (td!!2)
                                     , unpaddedReadPosition = parseReadPosition (td!!3)
-                                    , date    = readTime defaultTimeLocale "%y/%m/%d %T" $ (head . dropLabel) (td!!4)
+                                    , date    = readTime defaultTimeLocale "%y/%d/%m %T" $ intercalate " " $ dropLabel (td!!4)
                                     , Bio.Sequence.PhdTag.comment = Nothing
                                     }
