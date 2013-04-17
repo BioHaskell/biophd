@@ -13,7 +13,7 @@ Category:	     Bioinformatics
 Build-Type:          Simple
 
 Library
-  Build-depends:     base >= 2 && < 5, biocore, bytestring, parsec, text, binary
+  Build-depends:     base >= 2 && < 5, biocore, bytestring, parsec, text, binary, time, old-locale
   Exposed-modules:   Bio.Sequence.Phd
   Hs-source-dirs:    src
 

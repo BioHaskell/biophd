@@ -1,5 +1,8 @@
 module Bio.Sequence.PhdData where
 
+import System.Locale
+import Data.Time
+import Data.Time.Format
 import Data.Maybe(fromJust)
 import Bio.Core.Sequence
 import Bio.Sequence.PhdTag
@@ -21,7 +24,7 @@ data Comment = Comment
     , phredVersion       :: String
     , callMethod         :: String
     , qualityLevels      :: Int
-    , time               :: String
+    , time               :: LocalTime
     , traceArrayMinIndex :: Int
     , traceArrayMaxIndex :: Int
     , trim               :: Maybe String
@@ -74,7 +77,7 @@ defaultComment = Comment { chromatFile        = "seq.ab1"
                          , phredVersion       = "0.980904.e"
                          , callMethod         = "phred"
                          , qualityLevels      = 99
-                         , time               = ""
+                         , time               = readTime defaultTimeLocale "%a %b %-e %T %Y" "Thu Apr 6 09:53:26 2000"
                          , traceArrayMinIndex = 0
                          , traceArrayMaxIndex = 1
                          , trim               = Nothing
