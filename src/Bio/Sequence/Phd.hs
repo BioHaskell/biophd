@@ -13,7 +13,6 @@ import qualified Data.ByteString as BBB
 import qualified Data.ByteString.Lazy as BB
 import qualified Data.ByteString.Lazy.Char8 as B
 
-import Control.Monad (liftM)
 import Data.Ix
 import Data.Int (Int64)
 import Data.List
