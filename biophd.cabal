@@ -1,5 +1,5 @@
 Name:                biophd
-Version:             0.0.7
+Version:             0.0.8
 Synopsis:            Library for reading phd sequence files
 Description:         Library for reading phd sequence files
 Homepage:	     https://github.com/dfornika/biophd/wiki
@@ -13,7 +13,7 @@ Category:	     Bioinformatics
 Build-Type:          Simple
 
 Library
-  Build-depends:     base >= 2 && < 5, biocore, bytestring, parsec, text, binary, time, old-locale
+  Build-depends:     base >= 4.5 && < 5, biocore, bytestring, parsec, text, binary, time, old-locale
   Exposed-modules:   Bio.Sequence.Phd
   Hs-source-dirs:    src
 
