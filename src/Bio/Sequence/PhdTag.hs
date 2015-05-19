@@ -1,7 +1,6 @@
 module Bio.Sequence.PhdTag where 
-import System.Locale
-import Data.Time
-import Data.Time.Format
+
+import Data.Time.LocalTime(LocalTime)
 import Bio.Core.Sequence (Offset, unOff)
 
 data PhdTag = PhdTag

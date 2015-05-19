@@ -1,8 +1,7 @@
 module Bio.Sequence.PhdData where
 
-import System.Locale
-import Data.Time
-import Data.Time.Format
+import Data.Time.Format(TimeLocale, defaultTimeLocale, parseTimeOrError)
+import Data.Time.LocalTime(LocalTime)
 import Data.Maybe(fromJust)
 import Bio.Core.Sequence
 import Bio.Sequence.PhdTag
@@ -77,7 +76,7 @@ defaultComment = Comment { chromatFile        = "seq.ab1"
                          , phredVersion       = "0.980904.e"
                          , callMethod         = "phred"
                          , qualityLevels      = 99
-                         , time               = readTime defaultTimeLocale "%a %b %-e %T %Y" "Thu Apr 6 09:53:26 2000"
+                         , time               = parseTimeOrError True defaultTimeLocale "%a %b %-e %T %Y" "Thu Apr 6 09:53:26 2000"
                          , traceArrayMinIndex = 0
                          , traceArrayMaxIndex = 1
                          , trim               = Nothing

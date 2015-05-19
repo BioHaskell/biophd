@@ -19,11 +19,10 @@ import Data.Char (isSpace)
 import Data.List
 import Data.Maybe
 import Data.Text (Text)
-import Data.Time
-import Data.Time.Format
+import Data.Time.Format(TimeLocale, defaultTimeLocale, parseTimeOrError)
 import Data.Binary (encode)
 import System.IO
-import System.Locale
+-- import System.Locale
 
 -- | Parse a .phd file, extracting the contents as a PHD
 readPhd :: FilePath -> IO Phd
@@ -68,7 +67,7 @@ mkComment com = Comment { chromatFile        = head com
                         , phredVersion       = com!!2
                         , callMethod         = com!!3
                         , qualityLevels      = read (com!!4) :: Int
-                        , time               = readTime defaultTimeLocale "%a %b %-e %T %Y" $ com!!5
+                        , time               = parseTimeOrError True defaultTimeLocale "%a %b %-e %T %Y" $ com!!5
                         , traceArrayMinIndex = read (com!!6) :: Int
                         , traceArrayMaxIndex = read (com!!7) :: Int
                         , trim               = if length com > 10 then
@@ -113,13 +112,13 @@ mkOnePhdTag td = case length td of
                    9 -> Just PhdTag { tagType = head $ dropLabel (td!!1)
                                     , source  = head $ dropLabel (td!!2)
                                     , unpaddedReadPosition = parseReadPosition (td!!3)
-                                    , date    = readTime defaultTimeLocale "%y/%d/%m %T" $ intercalate " " $ dropLabel (td!!4)
+                                    , date    = parseTimeOrError True defaultTimeLocale "%y/%d/%m %T" $ intercalate " " $ dropLabel (td!!4)
                                     , Bio.Sequence.PhdTag.comment = if td!!6 == "BEGIN_TAG" then Nothing
                                                                     else Just (td!!6)
                                     }
                    _ -> Just PhdTag { tagType = head $ dropLabel (td!!1)
                                     , source  = head $ dropLabel (td!!2)
                                     , unpaddedReadPosition = parseReadPosition (td!!3)
-                                    , date    = readTime defaultTimeLocale "%y/%d/%m %T" $ intercalate " " $ dropLabel (td!!4)
+                                    , date    = parseTimeOrError True defaultTimeLocale "%y/%d/%m %T" $ intercalate " " $ dropLabel (td!!4)
                                     , Bio.Sequence.PhdTag.comment = Nothing
                                     }
